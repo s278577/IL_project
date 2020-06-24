@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sn
+import pandas as pd
+import matplotlib.pyplot as plt
 
 parameters = {
     'NUM_CLASSES': 100,
@@ -83,3 +86,9 @@ def plot_loss(loss_list,num_epochs,args):
         plt.xlabel('Epoch')
         plt.ylabel('Accuracy')
         plt.show()
+
+def plot_confusion_matrix(df):
+  fig, ax = plt.subplots(figsize=(15,9))
+  ax = sns.heatmap(df, linewidth=0.2)
+  plt.savefig(f"cm_{df.shape[0]}.png") #Store the pic locally
+  plt.show()
