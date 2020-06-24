@@ -1,0 +1,12 @@
+non ho  creato un validation dataset
+
+scheduler step come farlo decrescere?
+prendere classi a random?
+learning rate  troppo alto
+trasformazioni padding e horziontal flip?, quali valori di mean e std 
+
+iCarl
+	classify
+		da completare	
+		non capito a cosa servano squeeze e unsqueeze in classify
+
