@@ -92,3 +92,8 @@ def plot_confusion_matrix(df):
   ax = sns.heatmap(df, linewidth=0.2)
   plt.savefig(f"cm_{df.shape[0]}.png") #Store the pic locally
   plt.show()
+    
+def get_one_hot(target, num_class, device):
+    one_hot = torch.zeros(target.shape[0], num_class).to(device)
+    one_hot = one_hot.scatter(dim=1, index=target.long().view(-1, 1), value=1.)
+    return one_hot.to(device)
