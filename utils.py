@@ -5,6 +5,7 @@ import seaborn as sn
 import pandas as pd
 import matplotlib.pyplot as plt
 
+OUTPUT_PATH='../results/'
 parameters = {
     'NUM_CLASSES': 100,
     'BATCH_SIZE' : 128,
@@ -97,3 +98,10 @@ def get_one_hot(target, num_class, device):
     one_hot = torch.zeros(target.shape[0], num_class).to(device)
     one_hot = one_hot.scatter(dim=1, index=target.long().view(-1, 1), value=1.)
     return one_hot.to(device)
+
+def save_accuracies(acc, output=OUTPUT_PATH):
+  with open(f"{output}herd_{herding}-classifier_{classifier}-CL_{CL}-dl_{DL}-seed_{RANDOM_SEED}_accuracies.csv", "w", encoding="utf8") as f:
+    f.write("group_class,test_acc\n")
+    for train, test in acc:
+      f.write(f"{train},{test}\n")
+    print("********** FILE SAVED **********")
