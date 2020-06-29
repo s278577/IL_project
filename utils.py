@@ -105,3 +105,28 @@ def save_accuracies(acc, output=OUTPUT_PATH):
     for train, test in acc:
       f.write(f"{train},{test}\n")
     print("********** FILE SAVED **********")
+# dict_acc= { model1:["lista accuracy"],model2:["lista accuracy"]}
+
+
+def plot_compare_acc(dict_acc):
+    class_batches = np.arange(10, 101, 10)
+    
+    plt.figure()
+    colours=['b','c','r','y']
+    i=0
+    for accuracies in dict_acc.values():
+        plt.scatter(class_batches, np.array(accuracies) * 100, zorder=100, c=colours[i])
+        plt.plot(class_batches, np.array(accuracies) * 100)
+        i+=1
+    plt.legend([x for x in dict_acc.keys()], loc='best')
+    plt.xlabel("Number of classes")
+    plt.ylabel("Accuracy %")
+    plt.ylim(0, 100)
+    plt.xticks(list(range(10, 101, 10)))
+    plt.yticks(list(range(0, 101, 10)))
+    plt.grid()
+    compari='_'
+    compari=compari.join([x for x in dict_acc.keys()])
+    filename = f"compare_acc_{compari}.png"  # ex. cm_lwf_30
+    plt.savefig(filename, format='png', dpi=300)
+    plt.show()
