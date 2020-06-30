@@ -10,6 +10,18 @@ import torch.optim as optim
 from torchvision.transforms import Compose, CenterCrop, Normalize, Scale, Resize, ToTensor, ToPILImage
 from torch.optim.lr_scheduler import LambdaLR, StepLR
 
+import torch
+import torchvision
+from torchvision.models import vgg16
+from torchvision import transforms
+from torch.utils.data import DataLoader
+from torch.optim import Adam
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+from torchvision.transforms import Compose, CenterCrop, Normalize, Scale, Resize, ToTensor, ToPILImage
+from torch.optim.lr_scheduler import LambdaLR, StepLR
+
 import numpy as np
 import glob
 import PIL.Image as Image
@@ -32,13 +44,19 @@ class Trainer:
         self.dataset = Cifar100()
         self.model = PreResNet(32,total_cls).cuda()
         print(self.model)
-        self.model = nn.DataParallel(self.model, device_ids=[0,1])
+        self.model = nn.DataParallel(self.model)
         self.bias_layer1 = BiasLayer().cuda()
         self.bias_layer2 = BiasLayer().cuda()
         self.bias_layer3 = BiasLayer().cuda()
         self.bias_layer4 = BiasLayer().cuda()
         self.bias_layer5 = BiasLayer().cuda()
-        self.bias_layers=[self.bias_layer1, self.bias_layer2, self.bias_layer3, self.bias_layer4, self.bias_layer5]
+        self.bias_layer6 = BiasLayer().cuda()
+        self.bias_layer7 = BiasLayer().cuda()
+        self.bias_layer8 = BiasLayer().cuda()
+        self.bias_layer9 = BiasLayer().cuda()
+        self.bias_layer10 = BiasLayer().cuda()
+        self.bias_layers=[self.bias_layer1, self.bias_layer2, self.bias_layer3, self.bias_layer4, self.bias_layer5,\
+            self.bias_layer6, self.bias_layer7, self.bias_layer8, self.bias_layer9, self.bias_layer10]
         self.input_transform= Compose([
                                 transforms.RandomHorizontalFlip(),
                                 transforms.RandomCrop(32,padding=4),
@@ -269,3 +287,4 @@ class Trainer:
             optimizer.step()
             losses.append(loss.item())
         print("stage2 loss :", np.mean(losses))
+
