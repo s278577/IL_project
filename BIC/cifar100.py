@@ -13,7 +13,7 @@ class Cifar100:
         self.test_data = self.test['data']
         self.test_labels = self.test['fine_labels']
         self.train_groups, self.val_groups, self.test_groups = self.initialize()
-        self.batch_num = 5
+        self.batch_num = 10
 
     def initialize(self):
         train_groups = [[],[],[],[],[],[],[],[],[],[]]
