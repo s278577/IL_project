@@ -9,7 +9,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision.transforms import Compose, CenterCrop, Normalize, Scale, Resize, ToTensor, ToPILImage
 from torch.optim.lr_scheduler import LambdaLR, StepLR
-
+import seaborn as sns
 import torch
 import torchvision
 from torchvision.models import vgg16
@@ -77,6 +77,7 @@ class Trainer:
         count = 0
         correct = 0
         wrong = 0
+        t=self.total_cls
         matrix = new_confusion_matrix(lenx=t, leny=t)
         for i, (image, label) in enumerate(testdata):
             image = image.cuda()
