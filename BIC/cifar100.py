@@ -48,10 +48,9 @@ class Cifar100:
 
         val_groups = [[],[],[],[],[],[],[],[],[],[]]
         for i, train_group in enumerate(train_groups):
-            val_groups[i] = train_groups[i][9000:]
-            train_groups[i] = train_groups[i][:9000]
+            val_groups[i] = train_groups[i][4500:]
+            train_groups[i] = train_groups[i][:4500]
         
-
         test_groups =[[],[],[],[],[],[],[],[],[],[]]
         for test_data, test_label in zip(self.test_data, self.test_labels):
             test_data_r = test_data[:1024].reshape(32, 32)
@@ -59,26 +58,27 @@ class Cifar100:
             test_data_b = test_data[2048:].reshape(32, 32)
             test_data = np.dstack((test_data_r, test_data_g, test_data_b))
             if test_label < 10:
-                train_groups[0].append((train_data,test_label))
+                test_groups[0].append((test_data,test_label))
             elif 10 <= test_label < 20:
-                train_groups[1].append((train_data,test_label))
+                test_groups[1].append((test_data,test_label))
             elif 20 <= test_label < 30:
-                train_groups[2].append((train_data,test_label))
+                test_groups[2].append((test_data,test_label))
             elif 30 <= test_label < 40:
-                train_groups[3].append((train_data,test_label))
+                test_groups[3].append((test_data,test_label))
             elif 40 <= test_label < 50:
-                train_groups[4].append((train_data,test_label))
+                test_groups[4].append((test_data,test_label))
 
             elif 50 <= test_label < 60:
-                train_groups[5].append((train_data,test_label))
+                test_groups[5].append((test_data,test_label))
             elif 60 <= test_label < 70:
-                train_groups[6].append((train_data,test_label))
+                test_groups[6].append((test_data,test_label))
             elif 70 <= test_label < 80:
-                train_groups[7].append((train_data,test_label))
+                test_groups[7].append((test_data,test_label))
             elif 80 <= test_label < 90:
-                train_groups[8].append((train_data,test_label))
+                test_groups[8].append((test_data,test_label))
             elif 90 <= test_label < 100:
-                train_groups[9].append((train_data,test_label))
+                test_groups[9].append((test_data,test_label))
+       
        
 
         return train_groups, val_groups, test_groups
