@@ -77,6 +77,7 @@ class Trainer:
         count = 0
         correct = 0
         wrong = 0
+        matrix = new_confusion_matrix(lenx=t, leny=t)
         for i, (image, label) in enumerate(testdata):
             image = image.cuda()
             label = label.view(-1).cuda()
@@ -85,9 +86,11 @@ class Trainer:
             pred = p[:,:self.seen_cls].argmax(dim=-1)
             correct += sum(pred == label).item()
             wrong += sum(pred != label).item()
+            update_confusion_matrix(matrix, pred, label)
         acc = correct / (wrong + correct)
         print("Test Acc: {}".format(acc*100))
         self.model.train()
+        show_confusion_matrix(matrix)
         print("---------------------------------------------")
         return acc
 
@@ -202,17 +205,28 @@ class Trainer:
 
 
     def bias_forward(self, input):
-        in1 = input[:, :20]
-        in2 = input[:, 20:40]
-        in3 = input[:, 40:60]
-        in4 = input[:, 60:80]
-        in5 = input[:, 80:100]
+        in1 = input[:, :10]
+        in2 = input[:, 10:20]
+        in3 = input[:, 20:30]
+        in4 = input[:, 30:40]
+        in5 = input[:, 40:50]
+        in6 = input[:, 50:60]
+        in7 = input[:, 60:70]
+        in8 = input[:, 70:80]
+        in9 = input[:, 80:90]
+        in10=input[:,90:100]
         out1 = self.bias_layer1(in1)
         out2 = self.bias_layer2(in2)
         out3 = self.bias_layer3(in3)
         out4 = self.bias_layer4(in4)
         out5 = self.bias_layer5(in5)
-        return torch.cat([out1, out2, out3, out4, out5], dim = 1)
+        out6 = self.bias_layer1(in6)
+        out7 = self.bias_layer2(in7)
+        out8 = self.bias_layer3(in8)
+        out9 = self.bias_layer4(in9)
+        out10 = self.bias_layer5(in10)
+        return torch.cat([out1, out2, out3, out4, out5,out6,out7,out8,out9,out10], dim = 1)
+
 
 
     def stage1(self, train_data, criterion, optimizer):
@@ -288,3 +302,16 @@ class Trainer:
             losses.append(loss.item())
         print("stage2 loss :", np.mean(losses))
 
+def update_confusion_matrix(matrix, preds, datas):
+    for pred, data in zip(preds,datas):
+        matrix[data.item(),pred.item()] = matrix[data.item(),pred.item()]+1
+
+def new_confusion_matrix(lenx=100, leny=100):
+    matrix = np.zeros((leny, lenx))
+    return matrix
+
+def show_confusion_matrix(matrix):
+    fig, ax = plt.subplots(figsize=(15,9))
+    ax = sns.heatmap(matrix, linewidth=0.2,cmap='Reds')
+    plt.savefig(f"cm_{matrix.shape[0]}.png") #Store the pic locally
+    plt.show()
