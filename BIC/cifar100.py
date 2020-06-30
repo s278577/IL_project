@@ -4,9 +4,9 @@ import os
 
 class Cifar100:
     def __init__(self):
-        with open('BIC/cifar100ds/train','rb') as f:
+        with open('IL_project/BIC/cifar100ds/train','rb') as f:
             self.train = pickle.load(f, encoding='latin1')
-        with open('BIC/cifar100ds/test','rb') as f:
+        with open('IL_project/BIC/cifar100ds/test','rb') as f:
             self.test = pickle.load(f, encoding='latin1')
         self.train_data = self.train['data']
         self.train_labels = self.train['fine_labels']
