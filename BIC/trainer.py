@@ -50,13 +50,8 @@ class Trainer:
         self.bias_layer3 = BiasLayer().cuda()
         self.bias_layer4 = BiasLayer().cuda()
         self.bias_layer5 = BiasLayer().cuda()
-        self.bias_layer6 = BiasLayer().cuda()
-        self.bias_layer7 = BiasLayer().cuda()
-        self.bias_layer8 = BiasLayer().cuda()
-        self.bias_layer9 = BiasLayer().cuda()
-        self.bias_layer10 = BiasLayer().cuda()
-        self.bias_layers=[self.bias_layer1, self.bias_layer2, self.bias_layer3, self.bias_layer4, self.bias_layer5,\
-            self.bias_layer6, self.bias_layer7, self.bias_layer8, self.bias_layer9, self.bias_layer10]
+   
+        self.bias_layers=[self.bias_layer1, self.bias_layer2, self.bias_layer3, self.bias_layer4, self.bias_layer5]
         self.input_transform= Compose([
                                 transforms.RandomHorizontalFlip(),
                                 transforms.RandomCrop(32,padding=4),
